@@ -1,0 +1,70 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Canteen{% endblock %}
+
+{% block content %}
+{% include "header.html" %}
+<style>
+    input:focus, textarea:focus, select:focus{
+        outline: none;
+    }
+</style>
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/foodbg.jpg') }}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Canteen</h1>
+            <span class="subheading">Order on the go!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<div class="container">
+        <div class="container">
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-success" role="alert">
+              <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+</div>
+
+    <div class="container">
+
+      <div class="col-lg-8 col-md-10 mx-auto content">
+          <h3>Select Items To Order</h3>
+          <hr>
+          <form class="row g-3" action="/canteen" method="post">
+            {% for item in items %}
+              <div class="col-sm-10">
+                <label for="staticEmail2" class="visually-hidden">{{ item.item_name }}</label>
+                <input type="text" name="item_price" readonly class="form-control-plaintext" id="staticEmail2" value="{{ item.item_price }}">
+                <input type="hidden" name="item_name" value="{{ item.item_name }}">
+              </div>
+              <div class="col-sm-2">
+                <label for="qty" class="visually-hidden">Qty</label>
+                <select id="qty" name="qty" class="form-select" aria-label="Quantity select">
+                  <option selected>0</option>
+                    {% for i in range(1, item.item_quantity) %}
+                  <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+              {% endfor %}
+              <button type="submit" class="btn btn-primary my-5">Place Order</button>
+          </form>
+      </div>
+    </div>
+  </div>
+
+
+{% include "footer.html" %}
+{% endblock %}

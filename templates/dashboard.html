@@ -1,0 +1,112 @@
+{% include "header.html" %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/bg.jpg') }}')">
+    <div class="overlay"></div>  
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Dashboard</h1>
+            <span class="subheading">Welcome {{ current_user.name }}!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <center><h2 class="post-title"><u>Your Performance:</u></h2></center>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <div class="card-deck">
+
+        <div class="card bg-dark text-white text-center">
+          <div class="card-body">
+            <h3 class="card-title">{{ "%.2f"|format(avg) }}</h3>
+            <p class="card-text">Average GPA</p>
+             
+          </div>
+        </div>
+
+        <div class="card bg-dark text-white text-center">
+          <div class="card-body">
+            <h3 class="card-title">{{ "%.2f"|format(predicted_score) }}</h3>
+            <p class="card-text">Expected GPA</p>
+             
+          </div>
+        </div>
+                  
+        <div class="card bg-dark text-white text-center">
+          <div class="card-body">
+            <h3 class="card-title">{{ max_sem }}</h3>
+            <p class="card-text">Best Sem</p>
+             
+          </div>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto" >
+      <!--GRAPHS GO HERE-->
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+<div id='chart' class='chart'></div>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        <table class="table table-sm table-dark rounded">
+          <thead>
+            <tr>
+              {% for col in column_names %}
+            <th scope="col">
+              {{col}}
+            </th>
+            {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+          {% for row in df %}
+            <tr>
+              {% for col, row_ in zip(column_names, row) %}
+                <td>{{row_}}</td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+    
+  </div>
+  <hr>
+
+<script>
+  var mygraph = {{ graph|safe }};
+  Plotly.plot("chart", mygraph, {});
+
+</script>
+{% include "footer.html" %}

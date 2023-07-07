@@ -1,0 +1,50 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}View Orders{% endblock %}
+{% block content %}
+{% include "header.html" %}
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/foodbg.jpg') }}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>ORDERS</h1>
+            <span class="subheading">List of orders to be prepared</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {% for order in orders %}
+        <div class="post-preview">
+            <h1 class="post-title">
+              {{order.author.name}}
+            </h1>
+            <h3 class="post-subtitle">
+              Order id - {{order.id}}
+              {{order.order_desc|safe}}
+            </h3>
+          <p class="post-meta">
+            <a href="{{url_for('delete_order', order_id=order.id) }}">✘</a>
+
+          </p>
+        </div>
+        <hr>
+        {% endfor %}
+
+
+
+      </div>
+    </div>
+  </div>
+  <hr>
+
+{% include "footer.html" %}
+{% endblock %}

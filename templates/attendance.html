@@ -1,0 +1,38 @@
+{% extends 'bootstrap/base.html' %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}Lost/Found{% endblock %}
+{% block content %}
+{% include "header.html" %}
+
+  <!-- Page Header -->
+  <header class="masthead" style="background-image: url('{{ url_for('static', filename='img/lost.jpg') }}')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="site-heading">
+            <h1>Attendance Submission</h1>
+            <span class="subheading">Student's attendance should be submitted in Excel format.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+<div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto content">
+        {{ ckeditor.load() }}
+        {{ ckeditor.config(name='grievance') }}
+        {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        <div>
+          <small>A sample excel sheet can be downloaded from <a href="/static/data/attendance_sample.xlsx"><u color="Red">here.</u></a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% include "footer.html" %}
+{% endblock %}
